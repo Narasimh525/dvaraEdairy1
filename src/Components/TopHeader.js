@@ -33,7 +33,7 @@ class TopHeader extends React.Component {
                 </div>
             </Link>
             <div className = "headerCustomTitleWrapper">
-              <div className = "headerCustomTitle">DVARA E-DAIRY USER MANAGEMENT DASHBOARD</div>
+              <div className = "headerCustomTitle">DVARA E-DAIRY DASHBOARD</div>
             </div>
             <div>
                 <Button onClick = {this.show} style = {{background: 'red', color: 'white'}}> Logout
