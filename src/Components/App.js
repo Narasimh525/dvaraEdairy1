@@ -48,7 +48,7 @@ export default function App() {
   }
   async function downloadDailyCount(db){
     var sd;
-    await fetch(`http://localhost:4200/iffcotokioxl?type=daily&db=${db}`,{
+    await fetch(`https://edairy-backend.herokuapp.com/iffcotokioxl?type=daily&db=${db}`,{
       method:'POST',
     })
     .then(res=>res.json())
@@ -61,7 +61,7 @@ export default function App() {
   }
   function downloadAllData(db){
     var sd;
-    fetch(`http://localhost:4200/iffcotokioxl?type=all&db=${db}`,{
+    fetch(`https://edairy-backend.herokuapp.com/iffcotokioxl?type=all&db=${db}`,{
       method:'post',
     })
     .then(res=>res.json())
