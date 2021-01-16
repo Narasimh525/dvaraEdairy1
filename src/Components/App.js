@@ -30,8 +30,9 @@ export default function App() {
           </Grid.Column>
           <Grid.Column>
             <a style={{marginLeft:"10%"}} href={data[item].Link} target="_blank"><Button style={{width:"23%"}} primary icon>{data[item].Title}   <Icon name='send' /> </Button></a>
-            <Button style={{width:"23%"}} onClick={async()=>{await downloadAllData()}} color='facebook' disabled={data[item].Title!="IffcoTokio"?true:false} icon>All Data </Button>
-            <Button style={{width:"23%"}} onClick={async()=>{await downloadDailyCount();}} color='vk' disabled={data[item].Title!="IffcoTokio"?true:false} icon>Daily Count </Button>
+            <Button style={{width:"23%"}} onClick={async()=>{await downloadAllData(data[item].Title)}} color='facebook' disabled={(data[item].Title=="IFFCOTOKIO")?false:data[item].Title=="SBI Insurance" ?false : data[item].Title!="Bharti Axa"?true:false} icon>All Data </Button>
+            <Button style={{width:"23%"}} onClick={async()=>{await downloadDailyCount(data[item].Title);}} color='vk' disabled={(data[item].Title=="IFFCOTOKIO")?false:data[item].Title=="SBI Insurance" ?false : data[item].Title!="Bharti Axa"?true:false} icon>Daily Count </Button>
+            
           </Grid.Column>
         </Grid.Row >
       )
@@ -45,9 +46,9 @@ export default function App() {
       </Grid>
     )
   }
-  async function downloadDailyCount(){
+  async function downloadDailyCount(db){
     var sd;
-    await fetch("https://edairy-backend.herokuapp.com/iffcotokioxl?type=daily",{
+    await fetch(`http://localhost:4200/iffcotokioxl?type=daily&db=${db}`,{
       method:'POST',
     })
     .then(res=>res.json())
@@ -55,19 +56,19 @@ export default function App() {
       sd = data['one'];
         const columns = { date: 'Date', count: 'Count' };
          
-        downloadCsv(sd, columns,"IffcoTokio_Daily_Count.csv");
+        downloadCsv(sd, columns,`${db}_Daily_Count.csv`);
     })
   }
-  function downloadAllData(){
+  function downloadAllData(db){
     var sd;
-    fetch("https://edairy-backend.herokuapp.com/iffcotokioxl?type=all",{
+    fetch(`http://localhost:4200/iffcotokioxl?type=all&db=${db}`,{
       method:'post',
     })
     .then(res=>res.json())
     .then(data=>{
         sd = data['one'];
         const columns = { cattleId: 'CattleId', rfid: 'RFID', farmerID:'farmerID', farmerMobileNumber : 'farmerMobileNumber' , farmerName: 'Farmer Name' , village: 'Village' , agentMobileNo: 'Agent mobile Number' , agentName: 'Agent Name', muzzle0: 'Front View ' , muzzle1: 'muzzle1' , muzzle2: 'muzzle2' , muzzle3: 'muzzle3' , leftSideView: 'Left Side View' , backsideView: 'Backside View' , rightSideView: 'Right Side View' , gps: 'GPS' , timeStamp: 'Time Stamp'};
-        downloadCsv(sd, columns,"IffcoTokio_data.csv");
+        downloadCsv(sd, columns,`${db}_data.csv`);
     })
   }
 // export default App;
